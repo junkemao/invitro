@@ -42,7 +42,7 @@ import (
 	mc "github.com/vhive-serverless/loader/pkg/metric"
 )
 
-func InvokeGRPC(function *common.Function, runtimeSpec *common.RuntimeSpecification, cfg *config.LoaderConfiguration) (bool, *mc.ExecutionRecord) {
+func InvokeGRPC(function *common.Function, payloadData string, runtimeSpec *common.RuntimeSpecification, cfg *config.LoaderConfiguration) (bool, *mc.ExecutionRecord) {
 	log.Tracef("(Invoke)\t %s: %d[ms], %d[MiB]", function.Name, runtimeSpec.Runtime, runtimeSpec.Memory)
 
 	record := &mc.ExecutionRecord{
@@ -89,7 +89,7 @@ func InvokeGRPC(function *common.Function, runtimeSpec *common.RuntimeSpecificat
 	defer cancelExecution()
 
 	response, err := grpcClient.Execute(executionCxt, &proto.FaasRequest{
-		Message:           "nothing",
+		Message:           payloadData,
 		RuntimeInMilliSec: uint32(runtimeSpec.Runtime),
 		MemoryInMebiBytes: uint32(runtimeSpec.Memory),
 	})

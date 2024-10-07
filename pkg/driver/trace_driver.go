@@ -32,6 +32,7 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -82,7 +83,7 @@ func (c *DriverConfiguration) WithWarmup() bool {
 // HELPER METHODS
 // ///////////////////////////////////////
 func (d *Driver) outputFilename(name string) string {
-	return fmt.Sprintf("%s_%s_%d.csv", d.Configuration.LoaderConfiguration.OutputPathPrefix, name, d.Configuration.TraceDuration)
+	return fmt.Sprintf("%s_%s_%d_%s.csv", d.Configuration.LoaderConfiguration.OutputPathPrefix, name, d.Configuration.TraceDuration, time.Now().String())
 }
 
 func (d *Driver) runCSVWriter(records chan interface{}, filename string, writerDone *sync.WaitGroup) {
@@ -216,11 +217,14 @@ func (d *Driver) invokeFunction(metadata *InvocationMetadata) {
 	var runtimeSpecifications *common.RuntimeSpecification
 	for node != nil {
 		function := node.Value.(*common.Function)
+		transferSizeKB := 4095
+		payloadData := strings.Repeat("a", transferSizeKB*1024)
 		runtimeSpecifications = &function.Specification.RuntimeSpecification[metadata.MinuteIndex][metadata.InvocationIndex]
 		switch d.Configuration.LoaderConfiguration.Platform {
 		case "Knative":
 			success, record = InvokeGRPC(
 				function,
+				payloadData,
 				runtimeSpecifications,
 				d.Configuration.LoaderConfiguration,
 			)
