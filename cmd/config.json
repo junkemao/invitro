@@ -3,7 +3,7 @@
   "Platform": "Knative",
   "YAMLSelector": "container",
   "EndpointPort": 80,
-  "TracePath": "data/traces/example2/2_200",
+  "TracePath": "data/traces/example2",
   "Granularity": "minute",
   "OutputPathPrefix": "data/out/experiment",
   "IATDistribution": "equidistant",

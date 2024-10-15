@@ -217,7 +217,7 @@ func (d *Driver) invokeFunction(metadata *InvocationMetadata) {
 	var runtimeSpecifications *common.RuntimeSpecification
 	for node != nil {
 		function := node.Value.(*common.Function)
-		transferSizeKB := 4095
+		transferSizeKB := 500
 		payloadData := strings.Repeat("a", transferSizeKB*1024)
 		runtimeSpecifications = &function.Specification.RuntimeSpecification[metadata.MinuteIndex][metadata.InvocationIndex]
 		switch d.Configuration.LoaderConfiguration.Platform {
