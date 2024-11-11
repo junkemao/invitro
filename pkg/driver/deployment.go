@@ -27,7 +27,6 @@ package driver
 import (
 	"bytes"
 	"fmt"
-	"github.com/vhive-serverless/loader/pkg/common"
 	"io"
 	"math"
 	"math/rand"
@@ -37,6 +36,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/vhive-serverless/loader/pkg/common"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -75,8 +76,8 @@ func deployDirigent(function *common.Function) {
 		"port_forwarding":     {strconv.Itoa(metadata.Port), metadata.Protocol},
 		"scaling_upper_bound": {strconv.Itoa(metadata.ScalingUpperBound)},
 		"scaling_lower_bound": {strconv.Itoa(metadata.ScalingLowerBound)},
-		"requested_cpu":    {strconv.Itoa(function.CPURequestsMilli)},
-		"requested_memory": {strconv.Itoa(function.MemoryRequestsMiB)},
+		"requested_cpu":       {strconv.Itoa(function.CPURequestsMilli)},
+		"requested_memory":    {strconv.Itoa(function.MemoryRequestsMiB)},
 	}
 
 	log.Debug(payload)

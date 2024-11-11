@@ -22,8 +22,13 @@ monitor_kubectl_top() {
         echo "Timestamp: $(date)" >> $LOG_DIR/cpu_logging.txt
         echo "==========================" >> $LOG_DIR/cpu_logging.txt
         
+        echo "==========================" >> $LOG_DIR/cpu_percent.txt
+        echo "Timestamp: $(date)" >> $LOG_DIR/cpu_percent.txt
+        echo "==========================" >> $LOG_DIR/cpu_percent.txt
+        
         # Fetch 'kubectl top' for pods and append to the log file
         kubectl top pods --all-namespaces >> $LOG_DIR/cpu_logging.txt
+        kubectl top nodes >> $LOG_DIR/cpu_percent.txt
         # Optionally, you can fetch node metrics as well
         # kubectl top nodes >> $LOG_FILE
         # Wait for 30 seconds before fetching the metrics again
